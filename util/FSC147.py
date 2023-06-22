@@ -389,7 +389,7 @@ class ProcessTrainImage(object):
         reresized_density = torch.from_numpy(reresized_density)
 
         # Tokenize the text description.
-        text = self.clip_tokenizer(text).squeeze(-1)
+        text = self.clip_tokenizer(text).squeeze(-2)
 
         # Return the processed sample.
         sample = {
