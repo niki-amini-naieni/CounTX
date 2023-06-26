@@ -44,94 +44,15 @@ pip install imgaug
 
 ### CounTX Train
 
-Please modify your work directory and dataset directory in the following train files.
-
-|  Task   | model file | train file |
-|  ----  | ----  | ----  |
-| Pretrain on FSC147 | models_mae_noct.py | FSC_pretrain.py |
-| Finetune on FSC147 | models_mae_cross.py | FSC_finetune_cross.py |
-| Finetune on CARPK | models_mae_cross.py | FSC_finetune_CARPK.py |
-
-Pretrain on FSC147 
-
-```
-CUDA_VISIBLE_DEVICES=0 python FSC_pretrain.py \
-    --epochs 500 \
-    --warmup_epochs 10 \
-    --blr 1.5e-4 --weight_decay 0.05
-```
-
-Finetune on FSC147 
-
-```
-CUDA_VISIBLE_DEVICES=0 nohup python -u FSC_finetune_cross.py \
-    --epochs 1000 \
-    --blr 2e-4 --weight_decay 0.05  >>./train.log 2>&1 &
-```
-
-Finetune on CARPK
-
-```
-CUDA_VISIBLE_DEVICES=0 nohup python -u FSC_finetune_CARPK.py \
-    --epochs 1000 \
-    --blr 2e-4 --weight_decay 0.05  >>./train.log 2>&1 &
-```
-
 ### CounTX Inference
-
-Please modify your work directory and dataset directory in the following test files.
-
-|  Task   | model file | test file |
-|  ----  | ----  | ----  |
-| Test on FSC147 | models_mae_cross.py | FSC_test_cross.py |
-| Test on CARPK | models_mae_cross.py | FSC_test_CARPK.py |
-
-Test on FSC147
-
-```
-CUDA_VISIBLE_DEVICES=0 nohup python -u FSC_test_cross.py >>./test.log 2>&1 &
-```
-
-Test on CARPK
-
-```
-CUDA_VISIBLE_DEVICES=0 nohup python -u FSC_test_CARPK.py >>./test.log 2>&1 &
-```
-
-Also, demo.py is a small demo used for testing on a single image.
-
-```
-CUDA_VISIBLE_DEVICES=0 python demo.py
-```
 
 ### Pre-Trained Weights
 
-benchmark| MAE | RMSE |link|
-:---:|:---:|:---:|:---:|
-FSC147 | 11.95 (Test set) | 91.23 (Test set) |[weights](https://drive.google.com/file/d/1CzYyiYqLshMdqJ9ZPFJyIzXBa7uFUIYZ/view?usp=sharing) 
-CARPK | 5.75 | 7.45 |[weights](https://drive.google.com/file/d/1f0yy4pLAdtR7CL1OzMF123wiHgJ8KpPS/view?usp=sharing)
-
 ### Additional Qualitative Examples
-
-<img src=img/goodpred.png width="75%"/>
 
 ### Citation
 
-```
-@article{liu2022countr,
-  author = {Chang, Liu and Yujie, Zhong and Andrew, Zisserman and Weidi, Xie},
-  title = {CounTR: Transformer-based Generalised Visual Counting},
-  journal = {arXiv:2208.13721},
-  year = {2022}
-}
-```
-
 ### Acknowledgements
 
-We borrowed the code from
-* [FSC147](https://github.com/cvlab-stonybrook/LearningToCountEverything)
-* [MAE](https://github.com/facebookresearch/mae)
-* [timm](https://timm.fast.ai/)
 
-If you have any questions about our code implementation, please contact us at liuchang666@sjtu.edu.cn
 
