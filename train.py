@@ -18,7 +18,6 @@ from torchvision.transforms import Normalize, Compose, Resize
 from torchvision.transforms.functional import InterpolationMode
 
 import timm
-import wandb
 
 # Check the correct version of [timm] is installed.
 assert timm.__version__ == "0.3.2"
@@ -266,7 +265,7 @@ def main(args):
     random.seed(args.seed)
     cudnn.benchmark = False
     # NOTE: some operations during training do not have deterministic alternatives (such as [upsample_bilinear2d_backward_out_cuda]). Therefore, the line below is not executed.
-    #torch.use_deterministic_algorithms(True, warn_only=True) 
+    #torch.use_deterministic_algorithms(True) 
     os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":16:8"
 
     dataset_train = TrainData(args)
@@ -474,20 +473,6 @@ def main(args):
                 epoch=args.epochs,
             )
 
-        # Log metrics to wandb.
-        wandb.log(
-            {
-                "train_mae": curr_train_mae,
-                "train_rmse": curr_train_rmse,
-                "average_loss": avg_loss,
-                "val_mae": curr_val_mae,
-                "val_rmse": curr_val_rmse,
-                "best_val_mae": best_val_mae,
-                "best_val_epoch": best_val_epoch,
-                "lr": lr_to_log,
-            }
-        )
-
         log_stats = {
             **{f"train_{k}": v for k, v in train_stats.items()},
             "Current Train MAE": curr_train_mae,
@@ -520,26 +505,5 @@ if __name__ == "__main__":
     args = get_args_parser()
     args = args.parse_args()
 
-    # Start a new wandb run to track this script.
-    wandb.init(
-        project="mini-project-1",
-        config={
-            "image_encoder_backbone": "ViT-B-16",
-            "image_encoder_frozen": False,
-            "text_encoder_frozen": True,
-            "image_resolution": 224,
-            "spatial_feature_map_dims": 14,
-            "batch_size": args.batch_size,
-            "epochs": args.epochs,
-            "weight_decay": args.weight_decay,
-            "warmup_epochs": args.warmup_epochs,
-            "random_loss_masking": True,
-            "github_sha": "ac88d287e6f69eb1175cb5257537929885408b10",
-        },
-    )
-
     Path(args.output_dir).mkdir(parents=True, exist_ok=True)
     main(args)
-
-    # Finish the wandb run.
-    wandb.finish()
