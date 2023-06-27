@@ -39,7 +39,8 @@ pip install torch==1.10.0+cu111 torchvision==0.11.0+cu111 torchaudio==0.10.0 -f 
 pip install timm==0.3.2
 pip install scipy
 pip install imgaug
-cd open_clip
+git clone git@github.com:niki-amini-naieni/CounTX.git
+cd CounTX/open_clip
 pip install .
 ```
 * This repository uses [`timm==0.3.2`](https://github.com/rwightman/pytorch-image-models), for which a [fix](https://github.com/rwightman/pytorch-image-models/issues/420#issuecomment-776459842) is needed to work with PyTorch 1.8.1+. This fix can be implemented by replacing the file timm/models/layers/helpers.py in the timm codebase with the file [helpers.py](https://github.com/niki-amini-naieni/CounTX/blob/main/helpers.py) provided in this repository.
