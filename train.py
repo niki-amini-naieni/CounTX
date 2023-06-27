@@ -388,7 +388,6 @@ def main(args):
             lr = optimizer.param_groups[0]["lr"]
             metric_logger.update(lr=lr)
 
-        print("Averaged stats:", metric_logger)
         train_stats = {k: meter.global_avg for k, meter in metric_logger.meters.items()}
 
         curr_train_mae = train_mae / len(dataset_train)

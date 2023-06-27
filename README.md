@@ -102,7 +102,7 @@ Additional qualitative examples for CounTX not included in the main paper are pr
 
 ### Acknowledgements
 
-This repository is based on the [CounTR repository](https://github.com/Verg-Avesta/CounTR). If you have any questions about our code implementation, please contact us at [niki.amini-naieni@eng.ox.ac.uk](mailto:niki.amini-naieni@eng.ox.ac.uk).
+This repository is based on the [CounTR repository](https://github.com/Verg-Avesta/CounTR) and uses code from the [OpenCLIP repository](https://github.com/mlfoundations/open_clip). If you have any questions about our code implementation, please contact us at [niki.amini-naieni@eng.ox.ac.uk](mailto:niki.amini-naieni@eng.ox.ac.uk).
 
 
 
