@@ -128,6 +128,7 @@ def get_args_parser():
 
     return parser
 
+
 # See https://github.com/mlfoundations/open_clip/blob/37b729bc69068daa7e860fb7dbcf1ef1d03a4185/src/open_clip/transform.py
 open_clip_vit_b_16_preprocess = Compose(
     [
@@ -265,7 +266,7 @@ def main(args):
     random.seed(args.seed)
     cudnn.benchmark = False
     # NOTE: some operations during training do not have deterministic alternatives (such as [upsample_bilinear2d_backward_out_cuda]). Therefore, the line below is not executed.
-    #torch.use_deterministic_algorithms(True) 
+    # torch.use_deterministic_algorithms(True)
     os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":16:8"
 
     dataset_train = TrainData(args)
@@ -313,7 +314,6 @@ def main(args):
 
     # Save the best MAE for the validation set.
     best_val_mae = math.inf
-    best_val_epoch = 0
     start_time = time.time()
     for epoch in range(args.start_epoch, args.epochs):
 
@@ -328,7 +328,6 @@ def main(args):
         train_mae = 0
         train_rmse = 0
         avg_loss = 0
-        lr_to_log = 0
 
         optimizer.zero_grad()
 
@@ -388,7 +387,6 @@ def main(args):
 
             lr = optimizer.param_groups[0]["lr"]
             metric_logger.update(lr=lr)
-            lr_to_log = lr
 
         print("Averaged stats:", metric_logger)
         train_stats = {k: meter.global_avg for k, meter in metric_logger.meters.items()}
@@ -462,7 +460,6 @@ def main(args):
         if curr_val_mae < best_val_mae:
             # Update the best MAE on the validation set and the epoch that achieved that MAE.
             best_val_mae = curr_val_mae
-            best_val_epoch = epoch
             # The model will be saved in the output directory with the file name "checkpoint-[args.epochs].pth".
             misc.save_model(
                 args=args,
