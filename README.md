@@ -30,7 +30,7 @@ Note that the image names in FSC-147 can be used to identify the corresponding t
 
 #### 2. Set Up Anaconda Environment:
 
-The following commands will create a suitable Anaconda environment for running the CounTX training and inference code. To produce the results in the paper, we used [Anaconda version 2022.10](https://repo.anaconda.com/archive/).
+The following commands will create a suitable Anaconda environment for running the CounTX training and inference procedures. To produce the results in the paper, we used [Anaconda version 2022.10](https://repo.anaconda.com/archive/).
 
 ```
 conda create --name countx-environ python=3.7
