@@ -70,7 +70,7 @@ python test.py --data_split "test" --output_dir "./test" --resume "./results/che
 ```
 
 ### Pre-Trained Weights
-The model weights used in the paper are available [here](https://drive.google.com/file/d/1Vg5Mavkeg4Def8En3NhceiXa-p2Vb9MG/view?usp=sharing). To reproduce the results in the paper, run the following commands after activating the Anaconda environment set up in step 2 of [Preparation](#preparation). Make sure to change the directory and file names to the ones you set up in step 1 of [Preparation](#preparation). Make sure that the model file name refers to the model that you downloaded.
+The model weights used in the paper can be downloaded from [Google Drive link (1.3 GB)](https://drive.google.com/file/d/1Vg5Mavkeg4Def8En3NhceiXa-p2Vb9MG/view?usp=sharing). To reproduce the results in the paper, run the following commands after activating the Anaconda environment set up in step 2 of [Preparation](#preparation). Make sure to change the directory and file names to the ones you set up in step 1 of [Preparation](#preparation). Make sure that the model file name refers to the model that you downloaded.
 
 For the validation set:
 
