@@ -1,4 +1,4 @@
-## CounTX: Open-world Text-specified Object Counting - BMVC 2023
+## [BMVC 2023] CounTX: Open-world Text-specified Object Counting 
 Niki Amini-Naieni, Kiana Amini-Naieni, Tengda Han, & Andrew Zisserman
 
 Official PyTorch implementation for CounTX. Details can be found in the paper.
