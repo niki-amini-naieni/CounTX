@@ -2,7 +2,7 @@
 Niki Amini-Naieni, Kiana Amini-Naieni, Tengda Han, & Andrew Zisserman
 
 Official PyTorch implementation for CounTX. Details can be found in the paper.
-[[Paper]](https://arxiv.org/abs/2306.01851v1) [[Project page]](https://github.com/niki-amini-naieni/CounTX/tree/main)
+[[Paper]](https://arxiv.org/abs/2306.01851v1) [[Project page]](https://www.robots.ox.ac.uk/~vgg/research/countx/)
 
 <img src=img/teaser.png width="100%"/>
 <img src=img/architecture.png width="100%"/>
