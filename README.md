@@ -94,11 +94,11 @@ Additional qualitative examples for CounTX not included in the main paper are pr
 ### Citation
 
 ```
-@article{amininaieni2023openworld,
-      title={Open-world Text-specified Object Counting}, 
-      author={Niki Amini-Naieni and Kiana Amini-Naieni and Tengda Han and Andrew Zisserman},
-      journal={arXiv preprint arXiv:2306.01851},
-      year={2023}
+@InProceedings{AminiNaieni23,
+  author = "Amini-Naieni, N. and Amini-Naieni, K. and Han, T. and Zisserman, A.",
+  title = "Open-world Text-specified Object Counting",
+  booktitle = "British Machine Vision Conference",
+  year = "2023",
 }
 ```
 
