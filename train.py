@@ -15,7 +15,7 @@ import torch.backends.cudnn as cudnn
 from torch.utils.data import Dataset
 
 from torchvision.transforms import Normalize, Compose, Resize
-from torchvision.transforms.functional import InterpolationMode
+from torchvision.transforms.functional import InterpolationMode, crop
 
 import timm
 
@@ -185,6 +185,7 @@ class TrainData(Dataset):
     def __getitem__(self, idx):
         im_id = self.img[idx]
         fsc147_anno = self.fsc147_annotations[im_id]
+        bboxes = fsc147_anno['box_examples_coordinates']
         fsc147_d_anno = self.fsc147_d_annotations[im_id]
         text = fsc147_d_anno["text_description"]
 
@@ -197,6 +198,7 @@ class TrainData(Dataset):
 
         sample = {
             "image": image,
+            "bboxes": bboxes,
             "text": text,
             "gt_density": density,
             "dots": dots,
@@ -207,6 +209,7 @@ class TrainData(Dataset):
             open_clip_vit_b_16_preprocess(sample["image"]),
             sample["gt_density"],
             sample["text"],
+            sample["exemplars"]
         )
 
 
@@ -236,12 +239,29 @@ class ValData(Dataset):
         im_id = self.img[idx]
         fsc147_anno = self.fsc147_annotations[im_id]
         fsc147_d_anno = self.fsc147_d_annotations[im_id]
+        bboxes = fsc147_anno['box_examples_coordinates']
         text = self.clip_tokenizer(fsc147_d_anno["text_description"]).squeeze(-2)
 
         dots = np.array(fsc147_anno["points"])
 
         image = Image.open("{}/{}".format(self.img_dir, im_id))
         image.load()
+        rects = list()
+        cnt = 0
+        for bbox in bboxes:
+            x1 = bbox[0][0]
+            y1 = bbox[0][1]
+            x2 = bbox[2][0]
+            y2 = bbox[2][1]
+            box = crop(image, y1, x1, y2 + 1 - y1, x2 + 1 - x1)
+            box = Resize((64, 64))(box)
+            rects.append(box)
+            cnt += 1
+            if cnt == 3:
+                break
+
+        rects = torch.stack(rects)
+
         W, H = image.size
 
         # This resizing step exists for consistency with CounTR's data resizing step.
@@ -250,7 +270,7 @@ class ValData(Dataset):
         image = Resize((new_H, new_W))(image)
         image = TTensor(image)
 
-        return image, dots, text
+        return image, dots, text, rects
 
 
 def main(args):
@@ -331,7 +351,7 @@ def main(args):
 
         optimizer.zero_grad()
 
-        for data_iter_step, (samples, gt_density, text_descriptions) in enumerate(
+        for data_iter_step, (samples, gt_density, text_descriptions, exemplars) in enumerate(
             metric_logger.log_every(data_loader_train, print_freq, header)
         ):
 
@@ -339,12 +359,15 @@ def main(args):
                 optimizer, data_iter_step / len(data_loader_train) + epoch, args
             )
 
+            np.save("exemplars.npy", exemplars.numpy())
+
             samples = samples.to(device, non_blocking=True).half()
+            exemplars = exemplars.to(device, non_blocking=True).half()
             gt_density = gt_density.to(device, non_blocking=True).half()
             text_descriptions = text_descriptions.to(device, non_blocking=True)
 
             with torch.cuda.amp.autocast():
-                output = model(samples, text_descriptions)
+                output = model(samples, text_descriptions, exemplars)
 
             # Compute the loss.
             mask = np.random.binomial(n=1, p=0.8, size=[384, 384])
@@ -398,11 +421,12 @@ def main(args):
         val_mae = 0
         val_rmse = 0
         model.eval()
-        for data_iter_step, (samples, gt_dots, text_description) in enumerate(
+        for data_iter_step, (samples, gt_dots, text_description, exemplars) in enumerate(
             iter(data_loader_val)
         ):
 
             samples = samples.to(device, non_blocking=True)
+            exemplars = exemplars.to(device, non_blocking=True)
             gt_dots = gt_dots.to(device, non_blocking=True).half()
             text_description = text_description.to(device, non_blocking=True)
 
@@ -410,40 +434,33 @@ def main(args):
 
             # Apply sliding window density map averaging technique used in CounTR.
             density_map = torch.zeros([h, w])
+            counts = torch.zeros([h, w]).cuda()
             density_map = density_map.to(device, non_blocking=True)
+            stride = 128
             start = 0
             prev = -1
             with torch.no_grad():
-                while start + 383 < w:
+                while prev < start:
                     (output,) = model(
                         open_clip_vit_b_16_preprocess(
                             samples[:, :, :, start : start + 384]
                         ),
                         text_description,
+                        exemplars,
                     )
                     output = output.squeeze(0)
-                    b1 = nn.ZeroPad2d(padding=(start, w - prev - 1, 0, 0))
-                    d1 = b1(output[:, 0 : prev - start + 1])
-                    b2 = nn.ZeroPad2d(padding=(prev + 1, w - start - 384, 0, 0))
-                    d2 = b2(output[:, prev - start + 1 : 384])
+                    counts[:, start : start + 384] += 1
+                    density_map[:, start : start + 384] += output
+                    
+                    prev = start
+                    if start + stride + 384 > w:
+                        start = w - 384
+                    else:
+                        start = start + stride
 
-                    b3 = nn.ZeroPad2d(padding=(0, w - start, 0, 0))
-                    density_map_l = b3(density_map[:, 0:start])
-                    density_map_m = b1(density_map[:, start : prev + 1])
-                    b4 = nn.ZeroPad2d(padding=(prev + 1, 0, 0, 0))
-                    density_map_r = b4(density_map[:, prev + 1 : w])
 
-                    density_map = (
-                        density_map_l + density_map_r + density_map_m / 2 + d1 / 2 + d2
-                    )
-
-                    prev = start + 383
-                    start = start + 128
-                    if start + 383 >= w:
-                        if start == w - 384 + 128:
-                            break
-                        else:
-                            start = w - 384
+            density_map = density_map / counts
+                    
 
             pred_cnt = torch.sum(density_map / 60).item()
 
