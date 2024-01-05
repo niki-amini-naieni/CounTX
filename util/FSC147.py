@@ -45,30 +45,14 @@ class ProcessTrainImage(object):
         self.clip_tokenizer = open_clip.get_tokenizer("ViT-B-16")
 
     def __call__(self, sample):
-        image, bboxes, text, density, dots, im_id = (
+        image, text, density, dots, im_id = (
             sample["image"],
-            sample["bboxes"],
             sample["text"],
             sample["gt_density"],
             sample["dots"],
             sample["id"],
         )
 
-        rects = list()
-        cnt = 0
-        for bbox in bboxes:
-            x1 = bbox[0][0]
-            y1 = bbox[0][1]
-            x2 = bbox[2][0]
-            y2 = bbox[2][1]
-            box = TF.crop(image, y1, x1, y2 + 1 - y1, x2 + 1 - x1)
-            box = transforms.Resize((64, 64))(box)
-            rects.append(box)
-            cnt += 1
-            if cnt == 3:
-                break
-
-        rects = torch.stack(rects)
         W, H = image.size
 
         new_H = 16 * int(H / 16)
@@ -412,7 +396,6 @@ class ProcessTrainImage(object):
             "image": reresized_image,
             "text": text,
             "gt_density": reresized_density,
-            "exemplars": rects
         }
 
         return sample
