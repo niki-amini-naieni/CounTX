@@ -13,6 +13,7 @@ Official PyTorch implementation for CounTX. Details can be found in the paper.
 * [Preparation](#preparation)
 * [CounTX Train](#countx-train)
 * [CounTX Inference](#countx-inference)
+* [Using New Dataset](https://github.com/niki-amini-naieni/CounTX/issues/2#issuecomment-1961548998)
 * [Pre-trained Weights](#pre-trained-weights)
 * [Additional Qualitative Examples](#additional-qualitative-examples)
 * [Citation](#citation)
