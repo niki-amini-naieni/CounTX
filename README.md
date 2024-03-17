@@ -13,7 +13,7 @@ Official PyTorch implementation for CounTX. Details can be found in the paper.
 * [Preparation](#preparation)
 * [CounTX Train](#countx-train)
 * [CounTX Inference](#countx-inference)
-* [Pre-trained Weights](#pre-trained-weights)
+* [Pre-trained Weights (FSC-147 & CARPK)](#pre-trained-weights)
 * [Using New Dataset](https://github.com/niki-amini-naieni/CounTX/issues/2#issuecomment-1961548998)
 * [Additional Qualitative Examples](#additional-qualitative-examples)
 * [Citation](#citation)
@@ -74,6 +74,9 @@ python test.py --data_split "test" --output_dir "./test" --resume "./results/che
 ```
 
 ### Pre-Trained Weights
+
+#### FSC-147
+
 The model weights used in the paper can be downloaded from [Google Drive link (1.3 GB)](https://drive.google.com/file/d/1Vg5Mavkeg4Def8En3NhceiXa-p2Vb9MG/view?usp=sharing). To reproduce the results in the paper, run the following commands after activating the Anaconda environment set up in step 2 of [Preparation](#preparation). Make sure to change the directory and file names to the ones you set up in step 1 of [Preparation](#preparation). Make sure that the model file name refers to the model that you downloaded.
 
 For the validation set:
@@ -88,7 +91,12 @@ For the test set:
 python test_reproduce_paper.py --data_split "test" --output_dir "./test" --resume "paper-model.pth" --img_dir "/scratch/local/hdd/nikian/images_384_VarV2" --FSC147_anno_file "/scratch/local/hdd/nikian/annotation_FSC147_384.json" --FSC147_D_anno_file "./FSC-147-D.json" --data_split_file "/scratch/local/hdd/nikian/Train_Test_Val_FSC_147.json"
 ```
 
-* The reason that the code for testing the model from the paper is different from the main testing code is that since releasing the paper, the CounTX class definition has been refactored for readability. 
+#### CARPK
+The model weights used in the paper can be downloaded from [Google Drive link (1.3 GB)](https://drive.google.com/file/d/1Xwe1FzljCmDpxdH1oNE2BGh9gmOX0nGR/view?usp=sharing). To reproduce the results in the paper, run the following commands after activating the Anaconda environment set up in step 2 of [Preparation](#preparation) and installing hub as described [here](https://docs.activeloop.ai/v/v2.6.0/quickstart). Make sure that the model file name refers to the model that you downloaded.
+
+```
+python test_carpk.py --resume "carpk.pth"
+```
 
 ### Additional Qualitative Examples
 
