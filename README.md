@@ -77,7 +77,7 @@ python test.py --data_split "test" --output_dir "./test" --resume "./results/che
 
 #### FSC-147
 
-The model weights used in the paper can be downloaded from [Google Drive link (1.2 GB)](https://drive.google.com/file/d/1Vg5Mavkeg4Def8En3NhceiXa-p2Vb9MG/view?usp=sharing). To reproduce the results in the paper, run the following commands after activating the Anaconda environment set up in step 2 of [Preparation](#preparation). Make sure to change the directory and file names to the ones you set up in step 1 of [Preparation](#preparation). Make sure that the model file name refers to the model that you downloaded.
+The model weights used in the paper can be downloaded from [Google Drive link (1.3 GB)](https://drive.google.com/file/d/1Vg5Mavkeg4Def8En3NhceiXa-p2Vb9MG/view?usp=sharing). To reproduce the results in the paper, run the following commands after activating the Anaconda environment set up in step 2 of [Preparation](#preparation). Make sure to change the directory and file names to the ones you set up in step 1 of [Preparation](#preparation). Make sure that the model file name refers to the model that you downloaded.
 
 For the validation set:
 
@@ -116,6 +116,5 @@ Additional qualitative examples for CounTX not included in the main paper are pr
 ### Acknowledgements
 
 This repository is based on the [CounTR repository](https://github.com/Verg-Avesta/CounTR) and uses code from the [OpenCLIP repository](https://github.com/mlfoundations/open_clip). If you have any questions about our code implementation, please contact us at [niki.amini-naieni@eng.ox.ac.uk](mailto:niki.amini-naieni@eng.ox.ac.uk).
-
 
 
