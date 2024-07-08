@@ -4,7 +4,9 @@
 Niki Amini-Naieni, Kiana Amini-Naieni, Tengda Han, & Andrew Zisserman
 
 Official PyTorch implementation for CounTX. Details can be found in the paper.
-[[Paper]](https://arxiv.org/abs/2306.01851v1) [[Project page]](https://www.robots.ox.ac.uk/~vgg/research/countx/)
+[[Paper]](https://arxiv.org/abs/2306.01851v1) [[Project Page]](https://www.robots.ox.ac.uk/~vgg/research/countx/)
+
+### Update (July 8, 2024): Check out our new model, CountGD, that improves significantly on the performance of CounTX! [[Paper]](https://arxiv.org/abs/2407.04619) | [[Project Page]](https://www.robots.ox.ac.uk/~vgg/research/countgd/) | [[Code]](https://github.com/niki-amini-naieni/CountGD/) | [[App to Quickly Try Out Model]](https://huggingface.co/spaces/nikigoli/countgd)
 
 <img src=img/teaser.png width="100%"/>
 <img src=img/architecture.png width="100%"/>
