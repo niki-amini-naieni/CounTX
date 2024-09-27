@@ -79,7 +79,7 @@ python test.py --data_split "test" --output_dir "./test" --resume "./results/che
 
 #### FSC-147
 
-The model weights used in the paper can be downloaded from [Google Drive link (1.3 GB)](https://drive.google.com/file/d/1Vg5Mavkeg4Def8En3NhceiXa-p2Vb9MG/view?usp=sharing). To reproduce the results in the paper, run the following commands after activating the Anaconda environment set up in step 2 of [Preparation](#preparation). Make sure to change the directory and file names to the ones you set up in step 1 of [Preparation](#preparation). Make sure that the model file name refers to the model that you downloaded.
+The model weights used in the paper can be downloaded from [Google Drive link (1.3 GB)](https://drive.google.com/file/d/1GPgljS0abG9sdblFkRg2YDYWSzMq-IJz/view?usp=sharing). To reproduce the results in the paper, run the following commands after activating the Anaconda environment set up in step 2 of [Preparation](#preparation). Make sure to change the directory and file names to the ones you set up in step 1 of [Preparation](#preparation). Make sure that the model file name refers to the model that you downloaded.
 
 For the validation set:
 
@@ -94,7 +94,7 @@ python test_reproduce_paper.py --data_split "test" --output_dir "./test" --resum
 ```
 
 #### CARPK
-The model weights used in the paper can be downloaded from [Google Drive link (1.3 GB)](https://drive.google.com/file/d/1Xwe1FzljCmDpxdH1oNE2BGh9gmOX0nGR/view?usp=sharing). To reproduce the results in the paper, run the following commands after activating the Anaconda environment set up in step 2 of [Preparation](#preparation) and installing hub as described [here](https://docs.activeloop.ai/v/v2.6.0/quickstart). Make sure that the model file name refers to the model that you downloaded.
+The model weights used in the paper can be downloaded from [Google Drive link (1.3 GB)](https://drive.google.com/file/d/1DUyUVAyJfQblP__3q4yVgcOz0M-xyiv6/view?usp=sharing). To reproduce the results in the paper, run the following commands after activating the Anaconda environment set up in step 2 of [Preparation](#preparation) and installing hub as described [here](https://docs.activeloop.ai/v/v2.6.0/quickstart). Make sure that the model file name refers to the model that you downloaded.
 
 ```
 python test_carpk.py --resume "carpk.pth"
